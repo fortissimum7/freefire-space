@@ -5,14 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
   <title>Free Fire Space Generator</title>
   <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
   <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
   <style>
-    *, *::before, *::after { font-family: 'Roboto', sans-serif !important; box-sizing: border-box; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif !important;
+    }
 
-    body { background: rgb(var(--mdui-color-surface)); color: rgb(var(--mdui-color-on-surface)); margin: 0; }
+    .material-icons-round {
+      font-family: 'Material Icons Round' !important;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      pointer-events: none;
+      user-select: none;
+    }
 
-    .page-wrap {
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: rgb(var(--mdui-color-surface));
+      color: rgb(var(--mdui-color-on-surface));
+    }
+
+    .wrap {
       max-width: 620px;
       margin: 0 auto;
       padding: 20px 16px 60px;
@@ -47,7 +70,6 @@
       letter-spacing: .8px;
       text-transform: uppercase;
       color: rgb(var(--mdui-color-on-surface-variant));
-      padding: 0 2px;
     }
 
     mdui-text-field { width: 100%; }
@@ -63,7 +85,16 @@
       gap: 8px;
     }
 
-    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    mdui-button {
+      --mdui-comp-button-with-leading-icon-leading-space: 16px;
+      --mdui-comp-button-with-leading-icon-icon-label-space: 8px;
+    }
 
     .output-card {
       background: rgb(var(--mdui-color-surface-container));
@@ -99,10 +130,10 @@
     }
 
     .output-body.empty {
-      color: rgb(var(--mdui-color-on-surface-variant));
       font-family: 'Roboto', sans-serif !important;
       font-style: italic;
       font-size: 14px;
+      color: rgb(var(--mdui-color-on-surface-variant));
     }
 
     .stats-row {
@@ -123,50 +154,33 @@
 
     .stat-pill b { color: rgb(var(--mdui-color-primary)); }
 
-    mdui-menu-item .space-badge {
-      font-family: 'Roboto Mono', monospace !important;
+    mdui-menu-item small {
       font-size: 11px;
-      background: rgb(var(--mdui-color-secondary-container));
-      color: rgb(var(--mdui-color-on-secondary-container));
-      border-radius: 4px;
-      padding: 1px 5px;
-      margin-left: 4px;
+      opacity: .55;
+      font-family: 'Roboto Mono', monospace !important;
     }
   </style>
 </head>
 <body>
 
 <mdui-top-app-bar scroll-behavior="elevate">
-  <mdui-button-icon icon="sports_esports"></mdui-button-icon>
   <mdui-top-app-bar-title>Free Fire Space Generator</mdui-top-app-bar-title>
-
   <mdui-dropdown placement="bottom-end" style="margin-right:8px">
-    <mdui-chip slot="trigger" icon="tag" end-icon="arrow_drop_down" style="cursor:pointer">U+2006</mdui-chip>
+    <mdui-chip slot="trigger" id="chip-trigger" style="cursor:pointer">
+      U+2006 <span class="material-icons-round" style="font-size:18px;margin-left:2px">arrow_drop_down</span>
+    </mdui-chip>
     <mdui-menu id="space-menu" selects="single" value="2006">
-      <mdui-menu-item value="2006" icon="check">
-        Six-Per-Em <span class="space-badge">U+2006</span>
-      </mdui-menu-item>
-      <mdui-menu-item value="2005">
-        Four-Per-Em <span class="space-badge">U+2005</span>
-      </mdui-menu-item>
-      <mdui-menu-item value="2004">
-        Three-Per-Em <span class="space-badge">U+2004</span>
-      </mdui-menu-item>
-      <mdui-menu-item value="2003">
-        Em Space <span class="space-badge">U+2003</span>
-      </mdui-menu-item>
+      <mdui-menu-item value="2006">Six-Per-Em &nbsp;<small>U+2006</small></mdui-menu-item>
+      <mdui-menu-item value="2005">Four-Per-Em &nbsp;<small>U+2005</small></mdui-menu-item>
+      <mdui-menu-item value="2004">Three-Per-Em &nbsp;<small>U+2004</small></mdui-menu-item>
+      <mdui-menu-item value="2003">Em Space &nbsp;<small>U+2003</small></mdui-menu-item>
     </mdui-menu>
   </mdui-dropdown>
 </mdui-top-app-bar>
 
 <div style="height:64px"></div>
 
-<div class="page-wrap">
-
-  <div class="hero">
-    <div class="hero-title">🔥 Name Space Generator</div>
-    <div class="hero-sub">Converts spaces in your nickname to invisible Unicode Em Space characters — works on Free Fire.</div>
-  </div>
+<div class="wrap">
 
   <div class="section-label">Nickname</div>
 
@@ -174,74 +188,70 @@
     id="input"
     variant="outlined"
     label="Your nickname"
-    placeholder="e.g.  ꧁G O D꧂  or  x X x"
-    icon="person"
+    placeholder="e.g.  x X x  or  G O D"
     clearable
     helper="Must contain at least one space to convert"
   ></mdui-text-field>
 
   <div class="warn-box" id="warn">
-    ⚠️ No spaces found! Add spaces between characters.
+    No spaces found! Add spaces between characters.
   </div>
 
   <div class="btn-row">
-    <mdui-button variant="filled" icon="auto_fix_high" id="btn-gen">Generate</mdui-button>
-    <mdui-button variant="tonal" icon="content_paste" id="btn-paste">Paste</mdui-button>
-    <mdui-button variant="text" icon="clear_all" id="btn-clear">Clear</mdui-button>
+    <mdui-button variant="filled" id="btn-gen">
+      <span slot="icon" class="material-icons-round">auto_fix_high</span>
+      Generate
+    </mdui-button>
+    <mdui-button variant="tonal" id="btn-paste">
+      <span slot="icon" class="material-icons-round">content_paste</span>
+      Paste
+    </mdui-button>
+    <mdui-button variant="text" id="btn-clear">
+      <span slot="icon" class="material-icons-round">clear_all</span>
+      Clear
+    </mdui-button>
   </div>
 
   <div class="output-card">
     <div class="output-header">
       <span class="output-label">Result</span>
-      <mdui-tooltip content="Copy">
-        <mdui-button-icon icon="content_copy" id="btn-copy"></mdui-button-icon>
-      </mdui-tooltip>
+      <mdui-button-icon id="btn-copy" title="Copy">
+        <span class="material-icons-round">content_copy</span>
+      </mdui-button-icon>
     </div>
     <div class="output-body empty" id="output">Your converted nickname will appear here...</div>
     <div class="stats-row" id="stats" style="display:none">
       <div class="stat-pill"><b id="s-len">0</b> characters</div>
       <div class="stat-pill"><b id="s-sp">0</b> spaces converted</div>
-      <div class="stat-pill" id="s-type-pill">U+2006</div>
+      <div class="stat-pill" id="s-type">U+2006</div>
     </div>
   </div>
 
 </div>
 
 <script>
-  const SPACES = {
-    '2006': '\u2006',
-    '2005': '\u2005',
-    '2004': '\u2004',
-    '2003': '\u2003',
-  };
-
-  const LABELS = {
-    '2006': 'U+2006 Six-Per-Em',
-    '2005': 'U+2005 Four-Per-Em',
-    '2004': 'U+2004 Three-Per-Em',
-    '2003': 'U+2003 Em Space',
-  };
+  const SPACES = { '2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003' };
+  const LABELS = { '2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003' };
 
   const inputEl  = document.getElementById('input');
   const outputEl = document.getElementById('output');
   const warnEl   = document.getElementById('warn');
   const menuEl   = document.getElementById('space-menu');
-  const chipEl   = document.querySelector('mdui-chip[slot="trigger"]');
+  const chipEl   = document.getElementById('chip-trigger');
 
   (function applyTheme() {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     document.documentElement.classList.toggle('mdui-theme-dark', mq.matches);
-    mq.addEventListener('change', e => document.documentElement.classList.toggle('mdui-theme-dark', e.matches));
+    mq.addEventListener('change', e =>
+      document.documentElement.classList.toggle('mdui-theme-dark', e.matches)
+    );
   })();
 
   menuEl.addEventListener('change', () => {
-    chipEl.textContent = '';
-    chipEl.setAttribute('icon', 'tag');
-    chipEl.setAttribute('end-icon', 'arrow_drop_down');
-    chipEl.appendChild(document.createTextNode('U+' + menuEl.value.toUpperCase()));
+    const arrow = chipEl.querySelector('.material-icons-round');
+    chipEl.textContent = 'U+' + menuEl.value.toUpperCase() + ' ';
+    chipEl.appendChild(arrow);
   });
-
-  function getChar() { return SPACES[menuEl.value] || SPACES['2006']; }
 
   function snack(msg) { mdui.snackbar({ message: msg, placement: 'bottom' }); }
 
@@ -251,12 +261,12 @@
     const count = (val.match(/ /g) || []).length;
     if (!count) { warnEl.style.display = 'flex'; snack('No spaces found!'); return; }
     warnEl.style.display = 'none';
-    const result = val.split(' ').join(getChar());
+    const result = val.split(' ').join(SPACES[menuEl.value] || SPACES['2006']);
     outputEl.textContent = result;
     outputEl.classList.remove('empty');
     document.getElementById('s-len').textContent = result.length;
     document.getElementById('s-sp').textContent  = count;
-    document.getElementById('s-type-pill').textContent = LABELS[menuEl.value] || 'U+2006';
+    document.getElementById('s-type').textContent = LABELS[menuEl.value] || 'U+2006';
     document.getElementById('stats').style.display = 'flex';
     snack('Done!');
   }
