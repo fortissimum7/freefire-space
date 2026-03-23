@@ -44,26 +44,6 @@
       gap: 16px;
     }
 
-    .hero {
-      background: rgb(var(--mdui-color-primary-container));
-      border-radius: 20px;
-      padding: 18px 20px;
-    }
-
-    .hero-title {
-      font-size: 19px;
-      font-weight: 700;
-      color: rgb(var(--mdui-color-on-primary-container));
-      margin-bottom: 4px;
-    }
-
-    .hero-sub {
-      font-size: 13px;
-      color: rgb(var(--mdui-color-on-primary-container));
-      opacity: .75;
-      line-height: 1.5;
-    }
-
     .section-label {
       font-size: 11px;
       font-weight: 600;
@@ -154,6 +134,12 @@
 
     .stat-pill b { color: rgb(var(--mdui-color-primary)); }
 
+    .stat-pill.danger {
+      background: rgb(var(--mdui-color-error-container));
+      color: rgb(var(--mdui-color-on-error-container));
+      font-weight: 600;
+    }
+
     mdui-menu-item small {
       font-size: 11px;
       opacity: .55;
@@ -190,7 +176,9 @@
     label="Your nickname"
     placeholder="e.g. whole lotta red"
     clearable
-    helper="Must contain at least one space to convert"
+    maxlength="12"
+    counter
+    helper="Max 12 characters · Must contain at least one space"
   ></mdui-text-field>
 
   <div class="warn-box" id="warn">
@@ -224,6 +212,7 @@
       <div class="stat-pill"><b id="s-len">0</b> characters</div>
       <div class="stat-pill"><b id="s-sp">0</b> spaces converted</div>
       <div class="stat-pill" id="s-type">U+2006</div>
+      <div class="stat-pill danger" id="s-toolong" style="display:none">Too Long!</div>
     </div>
   </div>
 
@@ -232,12 +221,14 @@
 <script>
   const SPACES = { '2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003' };
   const LABELS = { '2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003' };
+  const MAX_INPUT = 12;
 
-  const inputEl  = document.getElementById('input');
-  const outputEl = document.getElementById('output');
-  const warnEl   = document.getElementById('warn');
-  const menuEl   = document.getElementById('space-menu');
-  const chipEl   = document.getElementById('chip-trigger');
+  const inputEl   = document.getElementById('input');
+  const outputEl  = document.getElementById('output');
+  const warnEl    = document.getElementById('warn');
+  const menuEl    = document.getElementById('space-menu');
+  const chipEl    = document.getElementById('chip-trigger');
+  const toolongEl = document.getElementById('s-toolong');
 
   (function applyTheme() {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -264,10 +255,11 @@
     const result = val.split(' ').join(SPACES[menuEl.value] || SPACES['2006']);
     outputEl.textContent = result;
     outputEl.classList.remove('empty');
-    document.getElementById('s-len').textContent = result.length;
-    document.getElementById('s-sp').textContent  = count;
+    document.getElementById('s-len').textContent  = result.length;
+    document.getElementById('s-sp').textContent   = count;
     document.getElementById('s-type').textContent = LABELS[menuEl.value] || 'U+2006';
     document.getElementById('stats').style.display = 'flex';
+    toolongEl.style.display = result.length > MAX_INPUT ? 'block' : 'none';
     snack('Done!');
   }
 
@@ -276,12 +268,17 @@
     outputEl.textContent = 'Your converted nickname will appear here...';
     outputEl.classList.add('empty');
     warnEl.style.display = 'none';
+    toolongEl.style.display = 'none';
     document.getElementById('stats').style.display = 'none';
   }
 
   async function paste() {
-    try { inputEl.value = await navigator.clipboard.readText(); warnEl.style.display = 'none'; snack('Pasted'); }
-    catch { snack('Cannot access clipboard'); }
+    try {
+      const text = await navigator.clipboard.readText();
+      inputEl.value = text.slice(0, MAX_INPUT);
+      warnEl.style.display = 'none';
+      snack(text.length > MAX_INPUT ? 'Pasted & trimmed to 12 chars' : 'Pasted');
+    } catch { snack('Cannot access clipboard'); }
   }
 
   async function copy() {
