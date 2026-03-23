@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+  <title>Free Fire Space Generator</title>
+  <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+  <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+  <style>
+    body { background: rgb(var(--mdui-color-surface)); }
+
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hero {
+      background: rgb(var(--mdui-color-primary-container));
+      border-radius: 20px;
+      padding: 20px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hero-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: rgb(var(--mdui-color-on-primary-container));
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: rgb(var(--mdui-color-on-primary-container));
+      opacity: .8;
+      line-height: 1.5;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: rgb(var(--mdui-color-on-surface-variant));
+      padding: 0 4px;
+    }
+
+    mdui-text-field { width: 100%; }
+
+    .warning-chip {
+      background: rgb(var(--mdui-color-error-container));
+      color: rgb(var(--mdui-color-on-error-container));
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .warning-chip mdui-icon { font-size: 18px; flex-shrink: 0; }
+
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .output-card {
+      background: rgb(var(--mdui-color-surface-container));
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px 8px;
+    }
+
+    .output-header-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: rgb(var(--mdui-color-on-surface-variant));
+    }
+
+    .output-actions { display: flex; gap: 4px; }
+
+    .output-body {
+      padding: 0 16px 16px;
+      font-family: monospace;
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgb(var(--mdui-color-on-surface));
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 80px;
+      user-select: all;
+    }
+
+    .output-body.empty {
+      color: rgb(var(--mdui-color-on-surface-variant));
+      font-family: inherit;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 16px 14px;
+      border-top: 1px solid rgb(var(--mdui-color-outline-variant));
+    }
+
+    .stat-chip {
+      background: rgb(var(--mdui-color-surface));
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: rgb(var(--mdui-color-on-surface-variant));
+    }
+
+    .stat-chip b { color: rgb(var(--mdui-color-primary)); }
+
+    .how-card {
+      background: rgb(var(--mdui-color-surface-container));
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .how-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgb(var(--mdui-color-on-surface));
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .how-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      color: rgb(var(--mdui-color-on-surface-variant));
+      line-height: 1.5;
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgb(var(--mdui-color-primary));
+      color: rgb(var(--mdui-color-on-primary));
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<mdui-top-app-bar>
+  <mdui-button-icon icon="gamepad"></mdui-button-icon>
+  <mdui-top-app-bar-title>Free Fire Space Generator</mdui-top-app-bar-title>
+  <mdui-chip style="margin-right:8px" icon="tag">U+2006</mdui-chip>
+</mdui-top-app-bar>
+
+<div style="height:64px"></div>
+
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-title">
+      <mdui-icon name="auto_fix_high"></mdui-icon>
+      Free Fire Name Space Generator
+    </div>
+    <div class="hero-sub">
+      Convert spaces in your Free Fire nickname to U+2006.
+    </div>
+  </div>
+
+  <div class="how-card">
+    <div class="how-title"><mdui-icon name="help_outline" style="font-size:18px"></mdui-icon> How to use</div>
+    <div class="how-step"><div class="step-num">1</div><span>Type your nickname below. <b>Make sure to include at least one space</b></span></div>
+  </div>
+
+  <div class="section-label">Enter your Nickname</div>
+
+  <mdui-text-field
+    id="input"
+    variant="outlined"
+    label="Enter your name template"
+    placeholder="e.g. big dih"
+    icon="person"
+    clearable
+    helper="Must contain at least one space character"
+  ></mdui-text-field>
+
+  <div class="warning-chip" id="warn" style="display:none">
+    <mdui-icon name="warning_amber"></mdui-icon>
+    <span>No spaces detected! Add spaces between characters so they can be converted!</span>
+  </div>
+
+  <div class="btn-row">
+    <mdui-button variant="filled" icon="auto_fix_high" id="btn-gen">Generate</mdui-button>
+    <mdui-button variant="tonal" icon="content_paste" id="btn-paste">Paste</mdui-button>
+    <mdui-button variant="text" icon="clear_all" id="btn-clear">Clear</mdui-button>
+  </div>
+
+  <div class="output-card">
+    <div class="output-header">
+      <span class="output-header-title">Result</span>
+      <div class="output-actions">
+        <mdui-tooltip content="Copy result">
+          <mdui-button-icon icon="content_copy" id="btn-copy"></mdui-button-icon>
+        </mdui-tooltip>
+      </div>
+    </div>
+    <div class="output-body empty" id="output">Your converted name will appear here...</div>
+    <div class="stats-row" id="stats" style="display:none">
+      <div class="stat-chip"><b id="s-len">0</b> characters</div>
+      <div class="stat-chip"><b id="s-sp">0</b> spaces converted</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const THIN = '\u2006';
+  const inputEl = document.getElementById('input');
+  const outputEl = document.getElementById('output');
+  const warnEl = document.getElementById('warn');
+
+  function snack(msg) {
+    mdui.snackbar({ message: msg, placement: 'bottom' });
+  }
+
+  function generate() {
+    const val = inputEl.value;
+    if (!val) { snack('Name template is empty'); return; }
+
+    const spaceCount = (val.match(/ /g) || []).length;
+
+    if (spaceCount === 0) {
+      warnEl.style.display = 'flex';
+      snack('No spaces found to convert!');
+      return;
+    }
+
+    warnEl.style.display = 'none';
+    const result = val.split(' ').join(THIN);
+    outputEl.textContent = result;
+    outputEl.classList.remove('empty');
+    document.getElementById('s-len').textContent = result.length;
+    document.getElementById('s-sp').textContent = spaceCount;
+    document.getElementById('stats').style.display = 'flex';
+    snack('Generated successfully!');
+  }
+
+  function clearAll() {
+    inputEl.value = '';
+    outputEl.textContent = 'Your converted name will appear here...';
+    outputEl.classList.add('empty');
+    warnEl.style.display = 'none';
+    document.getElementById('stats').style.display = 'none';
+  }
+
+  async function paste() {
+    try {
+      inputEl.value = await navigator.clipboard.readText();
+      warnEl.style.display = 'none';
+      snack('Pasted from clipboard');
+    } catch {
+      snack('Cannot access clipboard');
+    }
+  }
+
+  async function copy() {
+    if (outputEl.classList.contains('empty')) { snack('Nothing to copy yet'); return; }
+    try {
+      await navigator.clipboard.writeText(outputEl.textContent);
+      snack('Copied to clipboard!');
+    } catch {
+      snack('Copy failed');
+    }
+  }
+
+  inputEl.addEventListener('input', () => { warnEl.style.display = 'none'; });
+  inputEl.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') generate(); });
+
+  document.getElementById('btn-gen').addEventListener('click', generate);
+  document.getElementById('btn-paste').addEventListener('click', paste);
+  document.getElementById('btn-clear').addEventListener('click', clearAll);
+  document.getElementById('btn-copy').addEventListener('click', copy);
+</script>
+</body>
+  </html>
