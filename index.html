@@ -16,6 +16,7 @@
 .material-icons-round{
   font-family:'Material Icons Round'!important;
   font-size:20px;
+  line-height:1;
   display:flex;
   align-items:center;
 }
@@ -29,7 +30,7 @@ body{
 .wrap{
   max-width:620px;
   margin:auto;
-  padding:20px 16px 60px;
+  padding:20px 16px 80px;
   display:flex;
   flex-direction:column;
   gap:16px;
@@ -50,8 +51,6 @@ body{
   padding:10px;
   font-size:13px;
 }
-
-.btn-row{display:flex;gap:8px}
 
 .output-card{
   background:rgb(var(--mdui-color-surface-container));
@@ -75,11 +74,14 @@ body{
 }
 
 .output-body{
-  padding:6px 16px 16px;
+  padding:8px 16px 18px;
   font-family:'Roboto Mono',monospace!important;
-  white-space:pre-wrap;
+  text-align:center;
   word-break:break-all;
   min-height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .output-body.empty{
@@ -90,6 +92,7 @@ body{
 
 .stats-row{
   display:flex;
+  justify-content:center;
   gap:8px;
   padding:8px 16px 12px;
   border-top:1px solid rgb(var(--mdui-color-outline-variant));
@@ -102,14 +105,50 @@ body{
   font-size:12px;
 }
 
-.topbar-fix{
-  padding-left:16px !important;
+.stat-pill.danger{
+  background:rgb(var(--mdui-color-error-container));
+  color:rgb(var(--mdui-color-on-error-container));
+  font-weight:600;
 }
 
+.topbar-fix{
+  padding-left:16px!important;
+}
+
+/* CHIP FIX */
 .chip-fix{
   display:flex;
   align-items:center;
-  gap:4px;
+  gap:6px;
+  line-height:1;
+}
+
+.chip-text{
+  display:flex;
+  align-items:center;
+  height:20px;
+  font-size:13px;
+}
+
+/* FOOTER */
+.footer{
+  position:fixed;
+  bottom:12px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  opacity:.7;
+}
+
+.footer a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.footer .material-icons-round{
+  font-size:22px;
 }
 </style>
 </head>
@@ -121,8 +160,8 @@ body{
   </mdui-top-app-bar-title>
 
   <mdui-dropdown placement="bottom-end" style="margin-right:8px">
-    <mdui-chip slot="trigger" id="chip-trigger" class="chip-fix">
-      <span id="chip-text">U+00A0</span>
+    <mdui-chip slot="trigger" class="chip-fix">
+      <span id="chip-text" class="chip-text">U+00A0</span>
       <span class="material-icons-round">arrow_drop_down</span>
     </mdui-chip>
 
@@ -140,9 +179,7 @@ body{
 
 <div class="section-label">Nickname</div>
 
-<mdui-text-field
-  id="input"
-  variant="outlined"
+<mdui-text-field id="input" variant="outlined"
   label="Your nickname"
   placeholder="e.g. whole lotta red">
 </mdui-text-field>
@@ -158,16 +195,21 @@ body{
   </div>
 
   <div class="output-body empty" id="output">
-    Your converted nickname will appear here...
+    Empty
   </div>
 
   <div class="stats-row" id="stats" style="display:none">
-    <div class="stat-pill"><b id="s-len">0</b> chars</div>
-    <div class="stat-pill"><b id="s-sp">0</b> spaces</div>
+    <div class="stat-pill" id="len-pill"><b id="s-len">0</b></div>
+    <div class="stat-pill"><b id="s-sp">0</b></div>
     <div class="stat-pill" id="s-type">U+00A0</div>
   </div>
 </div>
 
+</div>
+
+<div class="footer">
+  <a href="https://github.com/fortissimum7/" id="github"><span class="material-icons-round">code</span></a>
+  <a href="https://t.me/@s4mpdor" id="telegram"><span class="material-icons-round">send</span></a>
 </div>
 
 <script>
@@ -192,6 +234,8 @@ const outputEl=document.getElementById('output');
 const warnEl=document.getElementById('warn');
 const menuEl=document.getElementById('space-menu');
 const chipText=document.getElementById('chip-text');
+const lenEl=document.getElementById('s-len');
+const lenPill=document.getElementById('len-pill');
 
 (function(){
  const mq=matchMedia('(prefers-color-scheme:dark)');
@@ -208,7 +252,7 @@ function update(){
  const val=inputEl.value;
 
  if(!val){
-  outputEl.textContent='Your converted nickname will appear here...';
+  outputEl.textContent='Start typing to generate your styled nickname';
   outputEl.classList.add('empty');
   document.getElementById('stats').style.display='none';
   return;
@@ -230,11 +274,19 @@ function update(){
  outputEl.textContent=result;
  outputEl.classList.remove('empty');
 
- document.getElementById('s-len').textContent=result.length;
+ const len=result.length;
+ lenEl.textContent=len;
+
  document.getElementById('s-sp').textContent=count;
  document.getElementById('s-type').textContent=LABELS[menuEl.value];
 
  document.getElementById('stats').style.display='flex';
+
+ if(len>12){
+  lenPill.classList.add('danger');
+ }else{
+  lenPill.classList.remove('danger');
+ }
 }
 
 async function copy(){
