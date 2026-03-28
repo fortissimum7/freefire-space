@@ -150,12 +150,13 @@
 <body>
 
 <mdui-top-app-bar scroll-behavior="elevate">
-  <mdui-top-app-bar-title>  Free Fire Space</mdui-top-app-bar-title>
+  <mdui-top-app-bar-title>    Free Fire Space</mdui-top-app-bar-title>
   <mdui-dropdown placement="bottom-end" style="margin-right:8px">
     <mdui-chip slot="trigger" id="chip-trigger" style="cursor:pointer">
       U+2006 <span class="material-icons-round" style="font-size:18px;margin-left:2px">arrow_drop_down</span>
     </mdui-chip>
-    <mdui-menu id="space-menu" selects="single" value="2006">
+    <mdui-menu id="space-menu" selects="single" value="00A0">
+      <mdui-menu-item value="00A0">Non-Breaking Space &nbsp;<small>U+00A0</small></mdui-menu-item>
       <mdui-menu-item value="2006">Six-Per-Em &nbsp;<small>U+2006</small></mdui-menu-item>
       <mdui-menu-item value="2005">Four-Per-Em &nbsp;<small>U+2005</small></mdui-menu-item>
       <mdui-menu-item value="2004">Three-Per-Em &nbsp;<small>U+2004</small></mdui-menu-item>
@@ -219,8 +220,8 @@
 </div>
 
 <script>
-  const SPACES = { '2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003' };
-  const LABELS = { '2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003' };
+  const SPACES = { '00A0':' ','2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003' };
+  const LABELS = { '00A0':'U+00A0','2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003' };
   const MAX_INPUT = 12;
 
   const inputEl   = document.getElementById('input');
