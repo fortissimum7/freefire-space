@@ -169,11 +169,12 @@ body{
     </mdui-chip>
 
     <mdui-menu id="space-menu" selects="single" value="00A0">
-      <mdui-menu-item value="00A0">Non-Breaking Space</mdui-menu-item>
-      <mdui-menu-item value="2006">Six-Per-Em</mdui-menu-item>
-      <mdui-menu-item value="2005">Four-Per-Em</mdui-menu-item>
-      <mdui-menu-item value="2004">Three-Per-Em</mdui-menu-item>
-      <mdui-menu-item value="2003">Em Space</mdui-menu-item>
+      <mdui-menu-item value="00A0">Non-Breaking Space &nbsp;<small>U+00A0</small></mdui-menu-item>
+      <mdui-menu-item value="3164">Hangul Filler  &nbsp;<small>U+3164</small></mdui-menu-item>
+      <mdui-menu-item value="2006">Six-Per-Em &nbsp;<small>U+2006</small></mdui-menu-item>
+      <mdui-menu-item value="2005">Four-Per-Em &nbsp;<small>U+2005</small></mdui-menu-item>
+      <mdui-menu-item value="2004">Three-Per-Em &nbsp;<small>U+2004</small></mdui-menu-item>
+      <mdui-menu-item value="2003">Em Space &nbsp;<small>U+2003</small></mdui-menu-item>
     </mdui-menu>
   </mdui-dropdown>
 </mdui-top-app-bar>
@@ -237,8 +238,8 @@ body{
 </div>
 
 <script>
-const SPACES={'00A0':'\u00A0','2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003'};
-const LABELS={'00A0':'U+00A0','2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003'};
+const SPACES={'00A0':'\u00A0','3164':'\u3164'2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003'};
+const LABELS={'00A0':'U+00A0','3164':'U+3164','2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003'};
 
 const inputEl=document.getElementById('input');
 const outputEl=document.getElementById('output');
