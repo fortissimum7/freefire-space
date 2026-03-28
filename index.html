@@ -15,9 +15,11 @@
 
 .material-icons-round{
   font-family:'Material Icons Round'!important;
-  font-size:20px;
-  display:flex;
+  font-size:18px;
+  display:inline-flex;
   align-items:center;
+  justify-content:center;
+  transform:translateY(-1px);
 }
 
 body{
@@ -44,11 +46,14 @@ body{
 
 .warn-box{
   display:none;
+  align-items:center;
+  gap:6px;
   background:rgb(var(--mdui-color-error-container));
   color:rgb(var(--mdui-color-on-error-container));
   border-radius:10px;
   padding:10px;
   font-size:13px;
+  line-height:1;
 }
 
 .output-card{
@@ -86,20 +91,22 @@ body{
 
 .stats-row{
   display:flex;
-  justify-content:flex-start;
+  flex-wrap:wrap;
+  align-items:center;
   gap:8px;
   padding:8px 16px 12px;
   border-top:1px solid rgb(var(--mdui-color-outline-variant));
 }
 
 .stat-pill{
+  display:flex;
+  align-items:center;
+  gap:6px;
   background:rgb(var(--mdui-color-surface));
   padding:4px 10px;
   border-radius:8px;
   font-size:12px;
-  display:flex;
-  gap:4px;
-  align-items:center;
+  white-space:nowrap;
 }
 
 .stat-pill b{
@@ -109,20 +116,12 @@ body{
 .stat-pill.danger{
   background:rgb(var(--mdui-color-error-container));
   color:rgb(var(--mdui-color-on-error-container));
-  font-weight:600;
-}
-
-.topbar-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
 }
 
 .chip-fix{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:4px;
 }
 
 .footer{
@@ -142,6 +141,7 @@ body{
   justify-content:center;
   width:28px;
   height:28px;
+  color:rgb(var(--mdui-color-on-surface));
 }
 
 .footer svg{
@@ -160,24 +160,22 @@ body{
 <body>
 
 <mdui-top-app-bar scroll-behavior="elevate">
-  <div class="topbar-inner">
-    <mdui-top-app-bar-title>Free Fire Space</mdui-top-app-bar-title>
+  <mdui-top-app-bar-title>Free Fire Space</mdui-top-app-bar-title>
 
-    <mdui-dropdown placement="bottom-end">
-      <mdui-chip slot="trigger" class="chip-fix">
-        <span id="chip-text">U+00A0</span>
-        <span class="material-icons-round">arrow_drop_down</span>
-      </mdui-chip>
+  <mdui-dropdown placement="bottom-end" style="margin-right:8px">
+    <mdui-chip slot="trigger" class="chip-fix">
+      <span id="chip-text">U+00A0</span>
+      <span class="material-icons-round">arrow_drop_down</span>
+    </mdui-chip>
 
-      <mdui-menu id="space-menu" selects="single" value="00A0">
-        <mdui-menu-item value="00A0">Non-Breaking Space</mdui-menu-item>
-        <mdui-menu-item value="2006">Six-Per-Em</mdui-menu-item>
-        <mdui-menu-item value="2005">Four-Per-Em</mdui-menu-item>
-        <mdui-menu-item value="2004">Three-Per-Em</mdui-menu-item>
-        <mdui-menu-item value="2003">Em Space</mdui-menu-item>
-      </mdui-menu>
-    </mdui-dropdown>
-  </div>
+    <mdui-menu id="space-menu" selects="single" value="00A0">
+      <mdui-menu-item value="00A0">Non-Breaking Space</mdui-menu-item>
+      <mdui-menu-item value="2006">Six-Per-Em</mdui-menu-item>
+      <mdui-menu-item value="2005">Four-Per-Em</mdui-menu-item>
+      <mdui-menu-item value="2004">Three-Per-Em</mdui-menu-item>
+      <mdui-menu-item value="2003">Em Space</mdui-menu-item>
+    </mdui-menu>
+  </mdui-dropdown>
 </mdui-top-app-bar>
 
 <div class="wrap">
@@ -209,10 +207,12 @@ body{
       <span class="material-icons-round">straighten</span>
       <b id="s-len">0</b> characters
     </div>
+
     <div class="stat-pill">
       <span class="material-icons-round">space_bar</span>
       <b id="s-sp">0</b> spaces
     </div>
+
     <div class="stat-pill" id="s-type">
       <span class="material-icons-round">code</span>
       U+00A0
@@ -237,21 +237,8 @@ body{
 </div>
 
 <script>
-const SPACES={
- '00A0':'\u00A0',
- '2006':'\u2006',
- '2005':'\u2005',
- '2004':'\u2004',
- '2003':'\u2003'
-};
-
-const LABELS={
- '00A0':'U+00A0',
- '2006':'U+2006',
- '2005':'U+2005',
- '2004':'U+2004',
- '2003':'U+2003'
-};
+const SPACES={'00A0':'\u00A0','2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003'};
+const LABELS={'00A0':'U+00A0','2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003'};
 
 const inputEl=document.getElementById('input');
 const outputEl=document.getElementById('output');
@@ -296,8 +283,7 @@ function update(){
  lenEl.textContent=len;
 
  document.getElementById('s-sp').textContent=count;
- document.getElementById('s-type').innerHTML =
-  '<span class="material-icons-round">code</span> '+LABELS[menuEl.value];
+ document.getElementById('s-type').innerHTML='<span class="material-icons-round">code</span> '+LABELS[menuEl.value];
 
  document.getElementById('stats').style.display='flex';
 
@@ -315,6 +301,12 @@ document.getElementById('btn-copy').onclick=async()=>{
  await navigator.clipboard.writeText(outputEl.textContent);
  mdui.snackbar({message:'Copied'});
 };
+
+(function(){
+ const mq=matchMedia('(prefers-color-scheme: dark)');
+ document.documentElement.classList.toggle('mdui-theme-dark', mq.matches);
+ mq.onchange=e=>document.documentElement.classList.toggle('mdui-theme-dark', e.matches);
+})();
 </script>
 
 </body>
