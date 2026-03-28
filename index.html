@@ -2,170 +2,118 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Free Fire Space</title>
+
   <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
   <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif !important;
-    }
+    * { box-sizing:border-box; font-family:'Roboto',sans-serif!important }
 
     .material-icons-round {
-      font-family: 'Material Icons Round' !important;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 20px;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      vertical-align: middle;
-      pointer-events: none;
-      user-select: none;
+      font-family:'Material Icons Round'!important;
+      font-size:20px;
+      display:inline-flex;
+      align-items:center;
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      background: rgb(var(--mdui-color-surface));
-      color: rgb(var(--mdui-color-on-surface));
+      margin:0;
+      background:rgb(var(--mdui-color-surface));
+      color:rgb(var(--mdui-color-on-surface));
     }
 
     .wrap {
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 20px 16px 60px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      max-width:620px;
+      margin:auto;
+      padding:20px 16px 60px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
     }
 
     .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: rgb(var(--mdui-color-on-surface-variant));
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      color:rgb(var(--mdui-color-on-surface-variant));
     }
-
-    mdui-text-field { width: 100%; }
 
     .warn-box {
-      background: rgb(var(--mdui-color-error-container));
-      color: rgb(var(--mdui-color-on-error-container));
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 13px;
-      display: none;
-      align-items: center;
-      gap: 8px;
+      display:none;
+      background:rgb(var(--mdui-color-error-container));
+      color:rgb(var(--mdui-color-on-error-container));
+      border-radius:10px;
+      padding:10px;
+      font-size:13px;
     }
 
-    .btn-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    mdui-button {
-      --mdui-comp-button-with-leading-icon-leading-space: 16px;
-      --mdui-comp-button-with-leading-icon-icon-label-space: 8px;
-    }
+    .btn-row { display:flex; gap:8px; flex-wrap:wrap }
 
     .output-card {
-      background: rgb(var(--mdui-color-surface-container));
-      border-radius: 16px;
-      overflow: hidden;
+      background:rgb(var(--mdui-color-surface-container));
+      border-radius:16px;
+      overflow:hidden;
     }
 
     .output-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px 6px;
-    }
-
-    .output-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: rgb(var(--mdui-color-on-surface-variant));
+      display:flex;
+      justify-content:space-between;
+      padding:12px 16px 6px;
     }
 
     .output-body {
-      padding: 4px 16px 16px;
-      font-family: 'Roboto Mono', monospace !important;
-      font-size: 15px;
-      line-height: 1.8;
-      color: rgb(var(--mdui-color-on-surface));
-      white-space: pre-wrap;
-      word-break: break-all;
-      min-height: 68px;
-      user-select: all;
+      padding:8px 16px 16px;
+      font-family:'Roboto Mono',monospace!important;
+      white-space:pre-wrap;
+      word-break:break-all;
+      min-height:60px;
     }
 
     .output-body.empty {
-      font-family: 'Roboto', sans-serif !important;
-      font-style: italic;
-      font-size: 14px;
-      color: rgb(var(--mdui-color-on-surface-variant));
+      font-family:'Roboto',sans-serif!important;
+      font-style:italic;
+      color:rgb(var(--mdui-color-on-surface-variant));
     }
 
     .stats-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 8px 16px 12px;
-      border-top: 1px solid rgb(var(--mdui-color-outline-variant));
+      display:flex;
+      gap:8px;
+      padding:8px 16px;
+      border-top:1px solid rgb(var(--mdui-color-outline-variant));
     }
 
     .stat-pill {
-      background: rgb(var(--mdui-color-surface));
-      border-radius: 8px;
-      padding: 3px 10px;
-      font-size: 12px;
-      color: rgb(var(--mdui-color-on-surface-variant));
-    }
-
-    .stat-pill b { color: rgb(var(--mdui-color-primary)); }
-
-    .stat-pill.danger {
-      background: rgb(var(--mdui-color-error-container));
-      color: rgb(var(--mdui-color-on-error-container));
-      font-weight: 600;
-    }
-
-    mdui-menu-item small {
-      font-size: 11px;
-      opacity: .55;
-      font-family: 'Roboto Mono', monospace !important;
+      background:rgb(var(--mdui-color-surface));
+      padding:3px 10px;
+      border-radius:8px;
+      font-size:12px;
     }
   </style>
 </head>
 <body>
 
 <mdui-top-app-bar scroll-behavior="elevate">
-  <mdui-top-app-bar-title>    Free Fire Space</mdui-top-app-bar-title>
+  <mdui-top-app-bar-title>Free Fire Space</mdui-top-app-bar-title>
+
   <mdui-dropdown placement="bottom-end" style="margin-right:8px">
     <mdui-chip slot="trigger" id="chip-trigger" style="cursor:pointer">
-      U+2006 <span class="material-icons-round" style="font-size:18px;margin-left:2px">arrow_drop_down</span>
+      U+00A0
+      <span class="material-icons-round">arrow_drop_down</span>
     </mdui-chip>
+
     <mdui-menu id="space-menu" selects="single" value="00A0">
-      <mdui-menu-item value="00A0">Non-Breaking Space &nbsp;<small>U+00A0</small></mdui-menu-item>
-      <mdui-menu-item value="2006">Six-Per-Em &nbsp;<small>U+2006</small></mdui-menu-item>
-      <mdui-menu-item value="2005">Four-Per-Em &nbsp;<small>U+2005</small></mdui-menu-item>
-      <mdui-menu-item value="2004">Three-Per-Em &nbsp;<small>U+2004</small></mdui-menu-item>
-      <mdui-menu-item value="2003">Em Space &nbsp;<small>U+2003</small></mdui-menu-item>
+      <mdui-menu-item value="00A0">Non-Breaking Space <small>U+00A0</small></mdui-menu-item>
+      <mdui-menu-item value="2006">Six-Per-Em <small>U+2006</small></mdui-menu-item>
+      <mdui-menu-item value="2005">Four-Per-Em <small>U+2005</small></mdui-menu-item>
+      <mdui-menu-item value="2004">Three-Per-Em <small>U+2004</small></mdui-menu-item>
+      <mdui-menu-item value="2003">Em Space <small>U+2003</small></mdui-menu-item>
     </mdui-menu>
   </mdui-dropdown>
 </mdui-top-app-bar>
-
-<div style="height:12px"></div>
 
 <div class="wrap">
 
@@ -176,14 +124,10 @@
     variant="outlined"
     label="Your nickname"
     placeholder="e.g. whole lotta red"
-    clearable
-    maxlength="12"
-    counter
-    helper="Max 12 characters · Must contain at least one space"
   ></mdui-text-field>
 
   <div class="warn-box" id="warn">
-    No spaces found! Add spaces between characters.
+    No spaces found!
   </div>
 
   <div class="btn-row">
@@ -191,109 +135,118 @@
       <span slot="icon" class="material-icons-round">auto_fix_high</span>
       Generate
     </mdui-button>
+
     <mdui-button variant="tonal" id="btn-paste">
       <span slot="icon" class="material-icons-round">content_paste</span>
       Paste
-    </mdui-button>
-    <mdui-button variant="text" id="btn-clear">
-      <span slot="icon" class="material-icons-round">clear_all</span>
-      Clear
     </mdui-button>
   </div>
 
   <div class="output-card">
     <div class="output-header">
-      <span class="output-label">Result</span>
-      <mdui-button-icon id="btn-copy" title="Copy">
+      <span>Result</span>
+      <mdui-button-icon id="btn-copy">
         <span class="material-icons-round">content_copy</span>
       </mdui-button-icon>
     </div>
-    <div class="output-body empty" id="output">Your converted nickname will appear here...</div>
+
+    <div class="output-body empty" id="output">
+      Your converted nickname will appear here...
+    </div>
+
     <div class="stats-row" id="stats" style="display:none">
-      <div class="stat-pill"><b id="s-len">0</b> characters</div>
-      <div class="stat-pill"><b id="s-sp">0</b> spaces converted</div>
-      <div class="stat-pill" id="s-type">U+2006</div>
-      <div class="stat-pill danger" id="s-toolong" style="display:none">Too Long!</div>
+      <div class="stat-pill"><b id="s-len">0</b> chars</div>
+      <div class="stat-pill"><b id="s-sp">0</b> spaces</div>
+      <div class="stat-pill" id="s-type">U+00A0</div>
     </div>
   </div>
 
 </div>
 
 <script>
-  const SPACES = { '00A0':' ','2006':'\u2006','2005':'\u2005','2004':'\u2004','2003':'\u2003' };
-  const LABELS = { '00A0':'U+00A0','2006':'U+2006','2005':'U+2005','2004':'U+2004','2003':'U+2003' };
-  const MAX_INPUT = 12;
+const SPACES = {
+  '00A0':'\u00A0',
+  '2006':'\u2006',
+  '2005':'\u2005',
+  '2004':'\u2004',
+  '2003':'\u2003'
+};
 
-  const inputEl   = document.getElementById('input');
-  const outputEl  = document.getElementById('output');
-  const warnEl    = document.getElementById('warn');
-  const menuEl    = document.getElementById('space-menu');
-  const chipEl    = document.getElementById('chip-trigger');
-  const toolongEl = document.getElementById('s-toolong');
+const LABELS = {
+  '00A0':'U+00A0',
+  '2006':'U+2006',
+  '2005':'U+2005',
+  '2004':'U+2004',
+  '2003':'U+2003'
+};
 
-  (function applyTheme() {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    document.documentElement.classList.toggle('mdui-theme-dark', mq.matches);
-    mq.addEventListener('change', e =>
-      document.documentElement.classList.toggle('mdui-theme-dark', e.matches)
-    );
-  })();
+const inputEl = document.getElementById('input');
+const outputEl = document.getElementById('output');
+const warnEl = document.getElementById('warn');
+const menuEl = document.getElementById('space-menu');
+const chipEl = document.getElementById('chip-trigger');
 
-  menuEl.addEventListener('change', () => {
-    const arrow = chipEl.querySelector('.material-icons-round');
-    chipEl.textContent = 'U+' + menuEl.value.toUpperCase() + ' ';
-    chipEl.appendChild(arrow);
-  });
+(function () {
+  const mq = matchMedia('(prefers-color-scheme: dark)');
+  document.documentElement.classList.toggle('mdui-theme-dark', mq.matches);
+  mq.onchange = e => document.documentElement.classList.toggle('mdui-theme-dark', e.matches);
+})();
 
-  function snack(msg) { mdui.snackbar({ message: msg, placement: 'bottom' }); }
+menuEl.addEventListener('change', () => {
+  chipEl.innerHTML = `U+${menuEl.value.toUpperCase()} <span class="material-icons-round">arrow_drop_down</span>`;
+});
 
-  function generate() {
-    const val = inputEl.value;
-    if (!val) { snack('Nickname is empty'); return; }
-    const count = (val.match(/ /g) || []).length;
-    if (!count) { warnEl.style.display = 'flex'; snack('No spaces found!'); return; }
+function snack(msg) {
+  mdui.snackbar({ message: msg });
+}
+
+function generate() {
+  const val = inputEl.value;
+  if (!val) return snack('Empty');
+
+  const count = (val.match(/ /g) || []).length;
+  if (!count) {
+    warnEl.style.display = 'block';
+    return snack('No spaces');
+  }
+
+  warnEl.style.display = 'none';
+
+  const result = val.split(' ').join(SPACES[menuEl.value]);
+
+  outputEl.textContent = result;
+  outputEl.classList.remove('empty');
+
+  document.getElementById('s-len').textContent = result.length;
+  document.getElementById('s-sp').textContent = count;
+  document.getElementById('s-type').textContent = LABELS[menuEl.value];
+
+  document.getElementById('stats').style.display = 'flex';
+
+  snack('Done');
+}
+
+async function paste() {
+  try {
+    inputEl.value = await navigator.clipboard.readText();
     warnEl.style.display = 'none';
-    const result = val.split(' ').join(SPACES[menuEl.value] || SPACES['2006']);
-    outputEl.textContent = result;
-    outputEl.classList.remove('empty');
-    document.getElementById('s-len').textContent  = result.length;
-    document.getElementById('s-sp').textContent   = count;
-    document.getElementById('s-type').textContent = LABELS[menuEl.value] || 'U+2006';
-    document.getElementById('stats').style.display = 'flex';
-    toolongEl.style.display = result.length > MAX_INPUT ? 'block' : 'none';
-    snack('Done!');
+    snack('Pasted');
+  } catch {
+    snack('Clipboard blocked');
   }
+}
 
-  function clearAll() {
-    inputEl.value = '';
-    outputEl.textContent = 'Your converted nickname will appear here...';
-    outputEl.classList.add('empty');
-    warnEl.style.display = 'none';
-    toolongEl.style.display = 'none';
-    document.getElementById('stats').style.display = 'none';
-  }
+async function copy() {
+  if (outputEl.classList.contains('empty')) return snack('Nothing');
 
-  async function paste() {
-    try {
-      const text = await navigator.clipboard.readText();
-      inputEl.value = text.slice(0, MAX_INPUT);
-      warnEl.style.display = 'none';
-      snack(text.length > MAX_INPUT ? 'Pasted & trimmed to 12 chars' : 'Pasted');
-    } catch { snack('Cannot access clipboard'); }
-  }
+  await navigator.clipboard.writeText(outputEl.textContent);
+  snack('Copied');
+}
 
-  async function copy() {
-    if (outputEl.classList.contains('empty')) { snack('Nothing to copy'); return; }
-    try { await navigator.clipboard.writeText(outputEl.textContent); snack('Copied!'); }
-    catch { snack('Copy failed'); }
-  }
-
-  inputEl.addEventListener('input', () => { warnEl.style.display = 'none'; });
-  inputEl.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') generate(); });
-  document.getElementById('btn-gen').addEventListener('click', generate);
-  document.getElementById('btn-paste').addEventListener('click', paste);
-  document.getElementById('btn-clear').addEventListener('click', clearAll);
-  document.getElementById('btn-copy').addEventListener('click', copy);
+document.getElementById('btn-gen').onclick = generate;
+document.getElementById('btn-paste').onclick = paste;
+document.getElementById('btn-copy').onclick = copy;
 </script>
+
 </body>
 </html>
