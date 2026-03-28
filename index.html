@@ -7,10 +7,18 @@
 
 <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
 
 <style>
 *{box-sizing:border-box;font-family:'Roboto',sans-serif!important}
+
+.material-icons-round{
+  font-family:'Material Icons Round'!important;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+}
 
 body{
   margin:0;
@@ -158,7 +166,7 @@ body{
     <mdui-dropdown placement="bottom-end">
       <mdui-chip slot="trigger" class="chip-fix">
         <span id="chip-text">U+00A0</span>
-        <span>▾</span>
+        <span class="material-icons-round">arrow_drop_down</span>
       </mdui-chip>
 
       <mdui-menu id="space-menu" selects="single" value="00A0">
@@ -181,24 +189,34 @@ body{
   placeholder="e.g. whole lotta red">
 </mdui-text-field>
 
-<div class="warn-box" id="warn">No spaces found!</div>
+<div class="warn-box" id="warn">
+  <span class="material-icons-round">warning</span>
+  No spaces found!
+</div>
 
 <div class="output-card">
   <div class="output-header">
     <span class="output-title">Result</span>
-    <mdui-button-icon id="btn-copy">⧉</mdui-button-icon>
+    <mdui-button-icon id="btn-copy">
+      <span class="material-icons-round">content_copy</span>
+    </mdui-button-icon>
   </div>
 
   <div class="output-body empty" id="output">Empty</div>
 
   <div class="stats-row" id="stats" style="display:none">
     <div class="stat-pill" id="len-pill">
+      <span class="material-icons-round">straighten</span>
       <b id="s-len">0</b> characters
     </div>
     <div class="stat-pill">
+      <span class="material-icons-round">space_bar</span>
       <b id="s-sp">0</b> spaces
     </div>
-    <div class="stat-pill" id="s-type">U+00A0</div>
+    <div class="stat-pill" id="s-type">
+      <span class="material-icons-round">code</span>
+      U+00A0
+    </div>
   </div>
 </div>
 
@@ -261,7 +279,7 @@ function update(){
  const count=(val.match(/ /g)||[]).length;
 
  if(!count){
-  warnEl.style.display='block';
+  warnEl.style.display='flex';
   outputEl.textContent=val;
   outputEl.classList.remove('empty');
   return;
@@ -278,7 +296,8 @@ function update(){
  lenEl.textContent=len;
 
  document.getElementById('s-sp').textContent=count;
- document.getElementById('s-type').textContent=LABELS[menuEl.value];
+ document.getElementById('s-type').innerHTML =
+  '<span class="material-icons-round">code</span> '+LABELS[menuEl.value];
 
  document.getElementById('stats').style.display='flex';
 
